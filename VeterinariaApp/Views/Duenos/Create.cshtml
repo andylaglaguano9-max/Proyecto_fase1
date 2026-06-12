@@ -1,0 +1,81 @@
+@model VeterinariaApp.Models.Dueno
+
+@{
+    ViewData["Title"] = "Registrar Dueño";
+}
+
+<div class="page-header">
+    <div class="container">
+        <h1><i class="bi bi-person-plus-fill"></i> Registrar Nuevo Dueño</h1>
+        <p>Complete el formulario para agregar un propietario al sistema</p>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="vet-form-card">
+        <h3><i class="bi bi-people-fill"></i> Datos del Propietario</h3>
+
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert" style="border-radius:8px;font-size:0.9rem;"></div>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="Nombre" class="form-label">
+                        <i class="bi bi-person-fill" style="color:var(--vet-green)"></i> Nombre
+                    </label>
+                    <input asp-for="Nombre" class="form-control" placeholder="Ej: Juan" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Apellido" class="form-label">
+                        <i class="bi bi-person-fill" style="color:var(--vet-green)"></i> Apellido
+                    </label>
+                    <input asp-for="Apellido" class="form-control" placeholder="Ej: Pérez" />
+                    <span asp-validation-for="Apellido" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Telefono" class="form-label">
+                        <i class="bi bi-telephone-fill" style="color:var(--vet-green)"></i> Teléfono
+                    </label>
+                    <input asp-for="Telefono" class="form-control" placeholder="Ej: 0991234567" />
+                    <span asp-validation-for="Telefono" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Correo" class="form-label">
+                        <i class="bi bi-envelope-fill" style="color:var(--vet-green)"></i> Correo electrónico
+                    </label>
+                    <input asp-for="Correo" class="form-control" placeholder="Ej: correo@ejemplo.com" type="email" />
+                    <span asp-validation-for="Correo" class="text-danger"></span>
+                </div>
+                <div class="col-12">
+                    <label asp-for="Direccion" class="form-label">
+                        <i class="bi bi-geo-alt-fill" style="color:var(--vet-green)"></i> Dirección
+                    </label>
+                    <input asp-for="Direccion" class="form-control" placeholder="Ej: Av. Principal 123, Quito" />
+                    <span asp-validation-for="Direccion" class="text-danger"></span>
+                </div>
+                <div class="col-12">
+                    <div style="display:flex;align-items:center;gap:10px;background:#F1F8F1;padding:14px;border-radius:8px;border:2px solid #C8E6C9;">
+                        <input class="form-check-input" asp-for="Activo" style="width:20px;height:20px;accent-color:var(--vet-green);" />
+                        <label class="form-label mb-0" style="font-weight:600;color:var(--vet-green-dark)">
+                            <i class="bi bi-check-circle-fill"></i> Dueño activo en el sistema
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-vet-primary">
+                    <i class="bi bi-floppy-fill"></i> Guardar Dueño
+                </button>
+                <a asp-action="Index" class="btn-vet-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver al listado
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

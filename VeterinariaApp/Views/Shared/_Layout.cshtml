@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="VetCare - Sistema de gestión para clínica veterinaria" />
+    <title>@ViewData["Title"] - VetCare 🐾</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/VeterinariaApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar-vet d-flex align-items-center justify-content-between flex-wrap">
+            <a class="navbar-brand-vet" asp-area="" asp-controller="Home" asp-action="Index">
+                <span class="logo-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+                <div>
+                    <div>VetCare</div>
+                    <div style="font-size:0.65rem; opacity:0.8; font-weight:400; margin-top:-4px">Clínica Veterinaria</div>
+                </div>
+            </a>
+
+            <button class="navbar-vet navbar-toggler d-md-none border-0 bg-transparent" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navMenu" style="color:white;font-size:1.5rem;">
+                <i class="bi bi-list"></i>
+            </button>
+
+            <div class="collapse d-md-flex" id="navMenu">
+                <ul class="navbar-nav d-flex flex-md-row flex-column gap-1">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="bi bi-house-fill"></i> Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Duenos" asp-action="Index"><i class="bi bi-people-fill"></i> Dueños</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Mascotas" asp-action="Index"><i class="bi bi-clipboard2-pulse-fill"></i> Mascotas</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer-vet">
+        <i class="bi bi-heart-pulse-fill"></i> &copy; 2026 VetCare - Clínica Veterinaria &nbsp;|&nbsp; Todos los derechos reservados
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

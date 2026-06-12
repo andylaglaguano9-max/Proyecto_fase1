@@ -1,0 +1,20 @@
+# Build and compilation folders
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio / Rider / VS Code cache
+.vs/
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Word temporary files
+~$*.docx
+~$*.doc
+
+# Other OS files
+.DS_Store
+thumbs.db

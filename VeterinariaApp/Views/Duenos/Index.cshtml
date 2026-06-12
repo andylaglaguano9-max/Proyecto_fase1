@@ -1,0 +1,140 @@
+@model IEnumerable<VeterinariaApp.Models.Dueno>
+@{ ViewData["Title"] = "Dueños"; }
+
+<div class="page-header">
+    <div class="container">
+        <h1><i class="bi bi-people-fill"></i> Gestión de Dueños</h1>
+        <p>Administra los propietarios de mascotas registrados en el sistema</p>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="vet-table-card">
+        <div class="table-toolbar">
+            <h5><i class="bi bi-card-list"></i> Lista de Propietarios
+                <span class="badge-activo ms-2">@ViewBag.TotalRegistros registros</span>
+            </h5>
+            <div class="d-flex gap-2 flex-wrap">
+                <form method="get" asp-action="Index" class="d-flex gap-2">
+                    <input type="text" name="buscar" value="@ViewBag.Buscar"
+                           class="form-control" style="width:220px;border-radius:50px;font-size:0.85rem;"
+                           placeholder="&#x1F50D; Buscar por nombre o correo..." />
+                    <button type="submit" class="btn-vet-secondary" style="padding:8px 16px;font-size:0.85rem;">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    @if (!string.IsNullOrEmpty(ViewBag.Buscar as string))
+                    {
+                        <a asp-action="Index" class="btn-vet-danger" style="padding:8px 14px;font-size:0.85rem;">
+                            <i class="bi bi-x-circle-fill"></i>
+                        </a>
+                    }
+                </form>
+                <a asp-action="Create" class="btn-vet-primary">
+                    <i class="bi bi-person-plus-fill"></i> Nuevo Dueño
+                </a>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="vet-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre completo</th>
+                        <th>Correo electrónico</th>
+                        <th>Teléfono</th>
+                        <th>Estado</th>
+                        <th>Fecha de registro</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td data-label="#">@item.Id</td>
+                            <td data-label="Nombre">
+                                <div style="display:flex;align-items:center;gap:10px">
+                                    <div style="background:#E8F5E9;color:#2E7D32;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;flex-shrink:0;">
+                                        @item.Nombre.Substring(0, 1).ToUpper()
+                                    </div>
+                                    <div>
+                                        <div style="font-weight:600">@item.Nombre @item.Apellido</div>
+                                        <div style="font-size:0.78rem;color:#90A4AE">@item.Direccion</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="Correo">
+                                <i class="bi bi-envelope-fill" style="color:#90A4AE"></i> @item.Correo
+                            </td>
+                            <td data-label="Teléfono">
+                                <i class="bi bi-telephone-fill" style="color:#90A4AE"></i> @item.Telefono
+                            </td>
+                            <td data-label="Estado">
+                                @if (item.Activo)
+                                {
+                                    <span class="badge-activo"><i class="bi bi-check-circle-fill"></i> Activo</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-inactivo"><i class="bi bi-x-circle-fill"></i> Inactivo</span>
+                                }
+                            </td>
+                            <td data-label="Registro" style="font-size:0.82rem;color:#90A4AE">
+                                <i class="bi bi-calendar3"></i> @item.FechaCreacion.ToString("dd/MM/yyyy")
+                            </td>
+                            <td data-label="Acciones">
+                                <div class="actions-cell">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-action btn-action-view" title="Ver detalle">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn-action btn-action-edit" title="Editar">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn-action btn-action-delete" title="Eliminar">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @if (!Model.Any())
+            {
+                <div style="text-align:center;padding:60px 20px;color:#90A4AE">
+                    <i class="bi bi-people" style="font-size:4rem;color:#C8E6C9;display:block;margin-bottom:15px"></i>
+                    <h5 style="color:#B0BEC5">No se encontraron propietarios</h5>
+                    <a asp-action="Create" class="btn-vet-primary mt-3">
+                        <i class="bi bi-person-plus-fill"></i> Registrar dueño
+                    </a>
+                </div>
+            }
+        </div>
+
+        <!-- PAGINACIÓN -->
+        @if (ViewBag.TotalPaginas > 1)
+        {
+            <div style="padding:16px 24px;border-top:1px solid #ECEFF1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                <span style="font-size:0.85rem;color:#90A4AE">
+                    Página <strong>@ViewBag.PaginaActual</strong> de <strong>@ViewBag.TotalPaginas</strong>
+                    &nbsp;·&nbsp; @ViewBag.TotalRegistros registros en total
+                </span>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                    @for (int i = 1; i <= (int)ViewBag.TotalPaginas; i++)
+                    {
+                        bool esActual = i == (int)ViewBag.PaginaActual;
+                        <a asp-action="Index" asp-route-pagina="@i" asp-route-buscar="@ViewBag.Buscar"
+                           style="padding:6px 14px;border-radius:50px;font-size:0.85rem;font-weight:600;text-decoration:none;
+                                  background:@(esActual ? "var(--vet-green)" : "white");
+                                  color:@(esActual ? "white" : "var(--vet-green)");
+                                  border:2px solid var(--vet-green);
+                                  transition:all 0.2s;">
+                            @i
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

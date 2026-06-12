@@ -1,0 +1,64 @@
+@model VeterinariaApp.Models.Mascota
+@{ ViewData["Title"] = "Detalle de Mascota"; }
+
+<div class="page-header">
+    <div class="container">
+        <h1><i class="bi bi-clipboard2-pulse-fill"></i> Detalle del Paciente</h1>
+        <p>Información completa de la mascota registrada</p>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="vet-detail-card">
+        <div class="detail-header">
+            <div class="avatar"><i class="bi bi-clipboard2-pulse-fill"></i></div>
+            <div>
+                <h3>@Model.Nombre</h3>
+                <div style="opacity:0.85;font-size:0.9rem">
+                    @if (Model.Activo)
+                    {
+                        <span style="background:rgba(255,255,255,0.2);padding:3px 12px;border-radius:50px;font-size:0.8rem;">
+                            <i class="bi bi-check-circle-fill"></i> Paciente Activo
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="background:rgba(255,0,0,0.2);padding:3px 12px;border-radius:50px;font-size:0.8rem;">
+                            <i class="bi bi-x-circle-fill"></i> Inactivo
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="detail-body">
+            <div class="detail-field">
+                <span class="field-label"><i class="bi bi-diagram-3-fill"></i> Especie</span>
+                <span class="field-value">@(Model.Especie?.Nombre ?? "—")</span>
+            </div>
+            <div class="detail-field">
+                <span class="field-label"><i class="bi bi-speedometer2"></i> Peso</span>
+                <span class="field-value">@Model.Peso kg</span>
+            </div>
+            <div class="detail-field">
+                <span class="field-label"><i class="bi bi-calendar3"></i> Nacimiento</span>
+                <span class="field-value">@Model.FechaNacimiento.ToString("dd 'de' MMMM 'de' yyyy", new System.Globalization.CultureInfo("es-EC"))</span>
+            </div>
+            <div class="detail-field">
+                <span class="field-label"><i class="bi bi-person-fill"></i> Propietario</span>
+                <span class="field-value">@(Model.Dueno != null ? $"{Model.Dueno.Nombre} {Model.Dueno.Apellido}" : "—")</span>
+            </div>
+            <div class="detail-field">
+                <span class="field-label"><i class="bi bi-calendar3"></i> Registro</span>
+                <span class="field-value">@Model.FechaCreacion.ToString("dd/MM/yyyy")</span>
+            </div>
+        </div>
+        <div style="padding:20px 30px;border-top:1px solid #ECEFF1;display:flex;gap:12px;flex-wrap:wrap;">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-vet-primary">
+                <i class="bi bi-pencil-fill"></i> Editar
+            </a>
+            <a asp-action="Index" class="btn-vet-secondary">
+                <i class="bi bi-arrow-left"></i> Volver al listado
+            </a>
+        </div>
+    </div>
+</div>
