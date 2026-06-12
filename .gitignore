@@ -11,9 +11,11 @@
 *.userosscache
 *.sln.docstates
 
-# Word temporary files
+# Word temporary and document files
 ~$*.docx
 ~$*.doc
+*.docx
+*.doc
 
 # Other OS files
 .DS_Store
