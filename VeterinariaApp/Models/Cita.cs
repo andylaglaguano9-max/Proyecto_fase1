@@ -5,10 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VeterinariaApp.Models
 {
-    public class Cita
+    public class Cita : EntityBase
     {
-        public int Id { get; set; }
-
         public DateTime FechaCita { get; set; }
 
         [Required]
@@ -17,10 +15,6 @@ namespace VeterinariaApp.Models
 
         [StringLength(50)]
         public string Estado { get; set; } = "Programada"; // Ej: Programada, Completada, Cancelada
-
-        public bool Activo { get; set; } = true;
-
-        public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 
         // Foráneas
         [Required]
@@ -32,6 +26,11 @@ namespace VeterinariaApp.Models
         public int VeterinarioId { get; set; }
         [ForeignKey("VeterinarioId")]
         public Veterinario? Veterinario { get; set; }
+
+        [Required]
+        public int SucursalId { get; set; }
+        [ForeignKey("SucursalId")]
+        public Sucursal? Sucursal { get; set; }
 
         // Relaciones
         public ICollection<Tratamiento>? Tratamientos { get; set; }

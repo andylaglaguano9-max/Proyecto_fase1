@@ -22,6 +22,41 @@ namespace VeterinariaApp.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("VeterinariaApp.Models.CategoriaProducto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CategoriasProducto");
+                });
+
             modelBuilder.Entity("VeterinariaApp.Models.Cita", b =>
                 {
                     b.Property<int>("Id")
@@ -38,11 +73,17 @@ namespace VeterinariaApp.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<DateTime>("FechaCita")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("MascotaId")
                         .HasColumnType("integer");
@@ -52,6 +93,9 @@ namespace VeterinariaApp.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
+                    b.Property<int>("SucursalId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("VeterinarioId")
                         .HasColumnType("integer");
 
@@ -59,66 +103,129 @@ namespace VeterinariaApp.Migrations
 
                     b.HasIndex("MascotaId");
 
+                    b.HasIndex("SucursalId");
+
                     b.HasIndex("VeterinarioId");
 
                     b.ToTable("Citas");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Activo = true,
-                            Estado = "Programada",
-                            FechaCita = new DateTime(2026, 6, 13, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(4907),
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(4770),
-                            MascotaId = 1,
-                            Motivo = "Control anual",
-                            VeterinarioId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Activo = true,
-                            Estado = "Programada",
-                            FechaCita = new DateTime(2026, 6, 14, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(5476),
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(5476),
-                            MascotaId = 2,
-                            Motivo = "Vacunación",
-                            VeterinarioId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Activo = true,
-                            Estado = "Programada",
-                            FechaCita = new DateTime(2026, 6, 15, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(5481),
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(5481),
-                            MascotaId = 3,
-                            Motivo = "Revisión ala",
-                            VeterinarioId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Activo = true,
-                            Estado = "Programada",
-                            FechaCita = new DateTime(2026, 6, 16, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(5483),
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(5482),
-                            MascotaId = 4,
-                            Motivo = "Corte de uñas",
-                            VeterinarioId = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Activo = true,
-                            Estado = "Programada",
-                            FechaCita = new DateTime(2026, 6, 17, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(5484),
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(5484),
-                            MascotaId = 5,
-                            Motivo = "Chequeo piel",
-                            VeterinarioId = 5
-                        });
+            modelBuilder.Entity("VeterinariaApp.Models.Ciudad", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ciudades");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.DetalleFactura", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Concepto")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("FacturaId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<decimal>("PrecioUnitario")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Subtotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FacturaId");
+
+                    b.ToTable("DetallesFactura");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.DetalleVenta", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<decimal>("PrecioUnitario")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Subtotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("VentaId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductoId");
+
+                    b.HasIndex("VentaId");
+
+                    b.ToTable("DetallesVenta");
                 });
 
             modelBuilder.Entity("VeterinariaApp.Models.Dueno", b =>
@@ -147,8 +254,14 @@ namespace VeterinariaApp.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -160,66 +273,14 @@ namespace VeterinariaApp.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Duenos");
+                    b.HasIndex("UsuarioId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Activo = true,
-                            Apellido = "Perez",
-                            Correo = "juan@example.com",
-                            Direccion = "",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(995),
-                            Nombre = "Juan",
-                            Telefono = "123456789"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Activo = true,
-                            Apellido = "Gomez",
-                            Correo = "maria@example.com",
-                            Direccion = "",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(1844),
-                            Nombre = "Maria",
-                            Telefono = "987654321"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Activo = true,
-                            Apellido = "Ruiz",
-                            Correo = "carlos@example.com",
-                            Direccion = "",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(1845),
-                            Nombre = "Carlos",
-                            Telefono = "555555555"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Activo = true,
-                            Apellido = "Lopez",
-                            Correo = "ana@example.com",
-                            Direccion = "",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(1846),
-                            Nombre = "Ana",
-                            Telefono = "444444444"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Activo = true,
-                            Apellido = "Diaz",
-                            Correo = "luis@example.com",
-                            Direccion = "",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(1847),
-                            Nombre = "Luis",
-                            Telefono = "333333333"
-                        });
+                    b.ToTable("Duenos");
                 });
 
             modelBuilder.Entity("VeterinariaApp.Models.Especie", b =>
@@ -233,8 +294,14 @@ namespace VeterinariaApp.Migrations
                     b.Property<bool>("Activo")
                         .HasColumnType("boolean");
 
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -244,43 +311,47 @@ namespace VeterinariaApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Especies");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Activo = true,
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 376, DateTimeKind.Utc).AddTicks(5532),
-                            Nombre = "Perro"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Activo = true,
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 376, DateTimeKind.Utc).AddTicks(6053),
-                            Nombre = "Gato"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Activo = true,
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 376, DateTimeKind.Utc).AddTicks(6054),
-                            Nombre = "Ave"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Activo = true,
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 376, DateTimeKind.Utc).AddTicks(6054),
-                            Nombre = "Roedor"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Activo = true,
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 376, DateTimeKind.Utc).AddTicks(6055),
-                            Nombre = "Reptil"
-                        });
+            modelBuilder.Entity("VeterinariaApp.Models.Factura", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("DuenoId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaEmision")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DuenoId");
+
+                    b.ToTable("Facturas");
                 });
 
             modelBuilder.Entity("VeterinariaApp.Models.Mascota", b =>
@@ -300,11 +371,17 @@ namespace VeterinariaApp.Migrations
                     b.Property<int>("EspecieId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("FechaNacimiento")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -321,63 +398,183 @@ namespace VeterinariaApp.Migrations
                     b.HasIndex("EspecieId");
 
                     b.ToTable("Mascotas");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Activo = true,
-                            DuenoId = 1,
-                            EspecieId = 1,
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(3413),
-                            FechaNacimiento = new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Nombre = "Rex",
-                            Peso = 15.5m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Activo = true,
-                            DuenoId = 2,
-                            EspecieId = 2,
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(4339),
-                            FechaNacimiento = new DateTime(2021, 5, 10, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Nombre = "Miau",
-                            Peso = 4.2m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Activo = true,
-                            DuenoId = 3,
-                            EspecieId = 3,
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(4343),
-                            FechaNacimiento = new DateTime(2022, 8, 15, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Nombre = "Piolin",
-                            Peso = 0.5m
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Activo = true,
-                            DuenoId = 4,
-                            EspecieId = 4,
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(4344),
-                            FechaNacimiento = new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Nombre = "Hams",
-                            Peso = 0.3m
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Activo = true,
-                            DuenoId = 5,
-                            EspecieId = 5,
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(4345),
-                            FechaNacimiento = new DateTime(2019, 11, 30, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Nombre = "Igu",
-                            Peso = 2.1m
-                        });
+            modelBuilder.Entity("VeterinariaApp.Models.Medicamento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<decimal>("Precio")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProveedorId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProveedorId");
+
+                    b.ToTable("Medicamentos");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Producto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("CategoriaProductoId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<decimal>("Precio")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProveedorId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoriaProductoId");
+
+                    b.HasIndex("ProveedorId");
+
+                    b.ToTable("Productos");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Proveedor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Contacto")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Proveedores");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Sucursal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("CiudadId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Direccion")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CiudadId");
+
+                    b.ToTable("Sucursales");
                 });
 
             modelBuilder.Entity("VeterinariaApp.Models.Tratamiento", b =>
@@ -402,61 +599,147 @@ namespace VeterinariaApp.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CitaId");
 
                     b.ToTable("Tratamientos");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Activo = true,
-                            CitaId = 1,
-                            Costo = 30.00m,
-                            Descripcion = "Revisión general completa",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(5829)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Activo = true,
-                            CitaId = 2,
-                            Costo = 25.50m,
-                            Descripcion = "Aplicación vacuna antirrábica",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(6360)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Activo = true,
-                            CitaId = 3,
-                            Costo = 15.00m,
-                            Descripcion = "Curación ala",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(6362)
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Activo = true,
-                            CitaId = 4,
-                            Costo = 10.00m,
-                            Descripcion = "Corte de uñas",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(6363)
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Activo = true,
-                            CitaId = 5,
-                            Costo = 20.00m,
-                            Descripcion = "Limpieza de escamas",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(6364)
-                        });
+            modelBuilder.Entity("VeterinariaApp.Models.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Rol")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Vacuna", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaAplicacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Lote")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<int>("MascotaId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime?>("ProximaDosis")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("VeterinarioId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MascotaId");
+
+                    b.HasIndex("VeterinarioId");
+
+                    b.ToTable("Vacunas");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Venta", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("DuenoId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FechaVenta")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DuenoId");
+
+                    b.ToTable("Ventas");
                 });
 
             modelBuilder.Entity("VeterinariaApp.Models.Veterinario", b =>
@@ -480,74 +763,38 @@ namespace VeterinariaApp.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<int>("SucursalId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Telefono")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Veterinarios");
+                    b.HasIndex("SucursalId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Activo = true,
-                            Apellido = "Sanchez",
-                            Especialidad = "General",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(2461),
-                            Nombre = "Dr. Roberto",
-                            Telefono = ""
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Activo = true,
-                            Apellido = "Martinez",
-                            Especialidad = "Cirugía",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(3004),
-                            Nombre = "Dra. Laura",
-                            Telefono = ""
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Activo = true,
-                            Apellido = "Ramirez",
-                            Especialidad = "Dermatología",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(3005),
-                            Nombre = "Dr. Pedro",
-                            Telefono = ""
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Activo = true,
-                            Apellido = "Herrera",
-                            Especialidad = "Oftalmología",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(3006),
-                            Nombre = "Dra. Sofia",
-                            Telefono = ""
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Activo = true,
-                            Apellido = "Torres",
-                            Especialidad = "Traumatología",
-                            FechaCreacion = new DateTime(2026, 6, 12, 3, 43, 44, 377, DateTimeKind.Utc).AddTicks(3007),
-                            Nombre = "Dr. Miguel",
-                            Telefono = ""
-                        });
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Veterinarios");
                 });
 
             modelBuilder.Entity("VeterinariaApp.Models.Cita", b =>
@@ -555,6 +802,12 @@ namespace VeterinariaApp.Migrations
                     b.HasOne("VeterinariaApp.Models.Mascota", "Mascota")
                         .WithMany("Citas")
                         .HasForeignKey("MascotaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VeterinariaApp.Models.Sucursal", "Sucursal")
+                        .WithMany("Citas")
+                        .HasForeignKey("SucursalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -566,7 +819,59 @@ namespace VeterinariaApp.Migrations
 
                     b.Navigation("Mascota");
 
+                    b.Navigation("Sucursal");
+
                     b.Navigation("Veterinario");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.DetalleFactura", b =>
+                {
+                    b.HasOne("VeterinariaApp.Models.Factura", "Factura")
+                        .WithMany("Detalles")
+                        .HasForeignKey("FacturaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Factura");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.DetalleVenta", b =>
+                {
+                    b.HasOne("VeterinariaApp.Models.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VeterinariaApp.Models.Venta", "Venta")
+                        .WithMany("Detalles")
+                        .HasForeignKey("VentaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Producto");
+
+                    b.Navigation("Venta");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Dueno", b =>
+                {
+                    b.HasOne("VeterinariaApp.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Factura", b =>
+                {
+                    b.HasOne("VeterinariaApp.Models.Dueno", "Dueno")
+                        .WithMany()
+                        .HasForeignKey("DuenoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dueno");
                 });
 
             modelBuilder.Entity("VeterinariaApp.Models.Mascota", b =>
@@ -588,6 +893,47 @@ namespace VeterinariaApp.Migrations
                     b.Navigation("Especie");
                 });
 
+            modelBuilder.Entity("VeterinariaApp.Models.Medicamento", b =>
+                {
+                    b.HasOne("VeterinariaApp.Models.Proveedor", "Proveedor")
+                        .WithMany("Medicamentos")
+                        .HasForeignKey("ProveedorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Proveedor");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Producto", b =>
+                {
+                    b.HasOne("VeterinariaApp.Models.CategoriaProducto", "Categoria")
+                        .WithMany("Productos")
+                        .HasForeignKey("CategoriaProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VeterinariaApp.Models.Proveedor", "Proveedor")
+                        .WithMany()
+                        .HasForeignKey("ProveedorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+
+                    b.Navigation("Proveedor");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Sucursal", b =>
+                {
+                    b.HasOne("VeterinariaApp.Models.Ciudad", "Ciudad")
+                        .WithMany("Sucursales")
+                        .HasForeignKey("CiudadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ciudad");
+                });
+
             modelBuilder.Entity("VeterinariaApp.Models.Tratamiento", b =>
                 {
                     b.HasOne("VeterinariaApp.Models.Cita", "Cita")
@@ -599,9 +945,66 @@ namespace VeterinariaApp.Migrations
                     b.Navigation("Cita");
                 });
 
+            modelBuilder.Entity("VeterinariaApp.Models.Vacuna", b =>
+                {
+                    b.HasOne("VeterinariaApp.Models.Mascota", "Mascota")
+                        .WithMany()
+                        .HasForeignKey("MascotaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VeterinariaApp.Models.Veterinario", "Veterinario")
+                        .WithMany()
+                        .HasForeignKey("VeterinarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Mascota");
+
+                    b.Navigation("Veterinario");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Venta", b =>
+                {
+                    b.HasOne("VeterinariaApp.Models.Dueno", "Dueno")
+                        .WithMany()
+                        .HasForeignKey("DuenoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dueno");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Veterinario", b =>
+                {
+                    b.HasOne("VeterinariaApp.Models.Sucursal", "Sucursal")
+                        .WithMany("Veterinarios")
+                        .HasForeignKey("SucursalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VeterinariaApp.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId");
+
+                    b.Navigation("Sucursal");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.CategoriaProducto", b =>
+                {
+                    b.Navigation("Productos");
+                });
+
             modelBuilder.Entity("VeterinariaApp.Models.Cita", b =>
                 {
                     b.Navigation("Tratamientos");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Ciudad", b =>
+                {
+                    b.Navigation("Sucursales");
                 });
 
             modelBuilder.Entity("VeterinariaApp.Models.Dueno", b =>
@@ -614,9 +1017,31 @@ namespace VeterinariaApp.Migrations
                     b.Navigation("Mascotas");
                 });
 
+            modelBuilder.Entity("VeterinariaApp.Models.Factura", b =>
+                {
+                    b.Navigation("Detalles");
+                });
+
             modelBuilder.Entity("VeterinariaApp.Models.Mascota", b =>
                 {
                     b.Navigation("Citas");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Proveedor", b =>
+                {
+                    b.Navigation("Medicamentos");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Sucursal", b =>
+                {
+                    b.Navigation("Citas");
+
+                    b.Navigation("Veterinarios");
+                });
+
+            modelBuilder.Entity("VeterinariaApp.Models.Venta", b =>
+                {
+                    b.Navigation("Detalles");
                 });
 
             modelBuilder.Entity("VeterinariaApp.Models.Veterinario", b =>

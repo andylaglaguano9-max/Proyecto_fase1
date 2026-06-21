@@ -1,0 +1,13 @@
+@{
+    ViewData["Title"] = "Carga Masiva de Datos";
+}
+
+<div class="container mt-5">
+    <h2>Carga Masiva (500,000 Registros)</h2>
+    <p>Presiona el botón para iniciar la carga de los 500,000 registros exactos solicitados en la rúbrica.</p>
+    <p class="text-danger">Advertencia: Este proceso puede tomar algunos minutos.</p>
+    
+    <form asp-action="RunSeed" method="post">
+        <button type="submit" class="btn btn-warning btn-lg">Iniciar Siembra de Datos (Seed)</button>
+    </form>
+</div>

@@ -1,0 +1,60 @@
+@model VeterinariaApp.Models.Usuario
+
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold text-dark m-0" style="font-family: 'Outfit', sans-serif;">
+        <i class="bi bi-pencil-square text-primary me-2"></i>Editar Usuario
+    </h1>
+    <a asp-action="Index" class="btn btn-outline-secondary rounded-pill shadow-sm">
+        <i class="bi bi-arrow-left"></i> Volver a la Lista
+    </a>
+</div>
+
+<div class="card shadow-sm border-0 rounded-4" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);">
+    <div class="card-body p-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Password" />
+            <input type="hidden" asp-for="FechaCreacion" />
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Username" class="form-label fw-bold">Usuario (Correo)</label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Rol" class="form-label fw-bold">Rol</label>
+                    <select asp-for="Rol" class="form-select">
+                        <!option value="Usuario">Usuario</!option>
+                        <!option value="Doctor">Doctor</!option>
+                        <!option value="Admin">Admin</!option>
+                    </select>
+                    <span asp-validation-for="Rol" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-4 form-check form-switch ms-3">
+                    <input class="form-check-input" type="checkbox" asp-for="Activo">
+                    <label class="form-check-label fw-bold" asp-for="Activo">Usuario Activo</label>
+                </div>
+            </div>
+
+            <hr class="text-muted" />
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary rounded-pill shadow-sm px-4">
+                    <i class="bi bi-save me-1"></i> Guardar Cambios
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

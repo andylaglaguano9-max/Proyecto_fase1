@@ -19,7 +19,15 @@
                     <input type="text" name="buscar" value="@ViewBag.Buscar"
                            class="form-control" style="width:220px;border-radius:50px;font-size:0.85rem;"
                            placeholder="&#x1F50D; Buscar por nombre o correo..." />
-                    <button type="submit" class="btn-vet-secondary" style="padding:8px 16px;font-size:0.85rem;">
+                    
+    <select name="orden" class="form-select" style="max-width:200px" onchange="this.form.submit()">
+        <option value="">Ordenar por...</option>
+        <option value="recientes" selected="@(ViewBag.OrdenActual == "recientes" ? "selected" : null)">Más Recientes</option>
+        <option value="antiguos" selected="@(ViewBag.OrdenActual == "antiguos" ? "selected" : null)">Más Antiguos</option>
+        <option value="az" selected="@(ViewBag.OrdenActual == "az" ? "selected" : null)">Alfabéticamente (A-Z)</option>
+        <option value="za" selected="@(ViewBag.OrdenActual == "za" ? "selected" : null)">Alfabéticamente (Z-A)</option>
+    </select>
+    <button type="submit" class="btn-vet-secondary" style="padding:8px 16px;font-size:0.85rem;">
                         <i class="bi bi-search"></i>
                     </button>
                     @if (!string.IsNullOrEmpty(ViewBag.Buscar as string))
@@ -121,9 +129,30 @@
                     &nbsp;·&nbsp; @ViewBag.TotalRegistros registros en total
                 </span>
                 <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                    @for (int i = 1; i <= (int)ViewBag.TotalPaginas; i++)
+                    @{
+                        int totalPages = ViewBag.TotalPaginas;
+                        int currentPage = ViewBag.PaginaActual;
+                        int maxPagesToShow = 5;
+                        int startPage = Math.Max(1, currentPage - maxPagesToShow / 2);
+                        int endPage = Math.Min(totalPages, startPage + maxPagesToShow - 1);
+
+                        if (endPage - startPage + 1 < maxPagesToShow)
+                        {
+                            startPage = Math.Max(1, endPage - maxPagesToShow + 1);
+                        }
+                    }
+
+                    @if (currentPage > 1)
                     {
-                        bool esActual = i == (int)ViewBag.PaginaActual;
+                        <a asp-action="Index" asp-route-pagina="@(currentPage - 1)" asp-route-buscar="@ViewBag.Buscar"
+                           class="btn-vet-secondary" style="padding:6px 14px;border-radius:50px;font-size:0.85rem;text-decoration:none;">
+                            Anterior
+                        </a>
+                    }
+
+                    @for (int i = startPage; i <= endPage; i++)
+                    {
+                        bool esActual = i == currentPage;
                         <a asp-action="Index" asp-route-pagina="@i" asp-route-buscar="@ViewBag.Buscar"
                            style="padding:6px 14px;border-radius:50px;font-size:0.85rem;font-weight:600;text-decoration:none;
                                   background:@(esActual ? "var(--vet-green)" : "white");
@@ -131,6 +160,14 @@
                                   border:2px solid var(--vet-green);
                                   transition:all 0.2s;">
                             @i
+                        </a>
+                    }
+
+                    @if (currentPage < totalPages)
+                    {
+                        <a asp-action="Index" asp-route-pagina="@(currentPage + 1)" asp-route-buscar="@ViewBag.Buscar"
+                           class="btn-vet-secondary" style="padding:6px 14px;border-radius:50px;font-size:0.85rem;text-decoration:none;">
+                            Siguiente
                         </a>
                     }
                 </div>

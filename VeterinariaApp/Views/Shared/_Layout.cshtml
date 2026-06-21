@@ -1,3 +1,6 @@
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -19,27 +22,113 @@
             <a class="navbar-brand-vet" asp-area="" asp-controller="Home" asp-action="Index">
                 <span class="logo-icon"><i class="bi bi-heart-pulse-fill"></i></span>
                 <div>
-                    <div>VetCare</div>
-                    <div style="font-size:0.65rem; opacity:0.8; font-weight:400; margin-top:-4px">Clínica Veterinaria</div>
+                    <div>NetVet</div>
+                    <div style="font-size:0.65rem; opacity:0.6; font-weight:500; margin-top:-4px; color:var(--vet-gray);">Premium Pet Health</div>
                 </div>
             </a>
 
             <button class="navbar-vet navbar-toggler d-md-none border-0 bg-transparent" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#navMenu" style="color:white;font-size:1.5rem;">
+                    data-bs-toggle="collapse" data-bs-target="#navMenu" style="font-size:1.5rem;">
                 <i class="bi bi-list"></i>
             </button>
 
             <div class="collapse d-md-flex" id="navMenu">
-                <ul class="navbar-nav d-flex flex-md-row flex-column gap-1">
+                <ul class="navbar-nav d-flex flex-md-row flex-column gap-1 w-100 align-items-md-center">
+                    @{
+                        var usuario = HttpContextAccessor.HttpContext?.Session.GetString("Usuario");
+                        var rol = HttpContextAccessor.HttpContext?.Session.GetString("Rol") ?? "";
+                    }
+                    
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="bi bi-house-fill"></i> Inicio</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Duenos" asp-action="Index"><i class="bi bi-people-fill"></i> Dueños</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Mascotas" asp-action="Index"><i class="bi bi-clipboard2-pulse-fill"></i> Mascotas</a>
-                    </li>
+
+                    @if (!string.IsNullOrEmpty(usuario))
+                    {
+                        @if (rol == "Admin" || rol == "Doctor")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Duenos" asp-action="Index"><i class="bi bi-people-fill"></i> Dueños</a>
+                            </li>
+                        }
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Mascotas" asp-action="Index"><i class="bi bi-clipboard2-pulse-fill"></i> @(rol == "Usuario" ? "Mis Mascotas" : "Mascotas")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Citas" asp-action="Index"><i class="bi bi-calendar-check-fill"></i> @(rol == "Usuario" ? "Mis Citas" : "Citas")</a>
+                        </li>
+                        
+                        @if (rol == "Admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Veterinarios" asp-action="Index"><i class="bi bi-person-badge-fill"></i> Veterinarios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Usuarios" asp-action="Index"><i class="bi bi-shield-lock-fill"></i> Usuarios</a>
+                            </li>
+                        }
+
+                        @if (rol == "Admin" || rol == "Doctor")
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-heart-pulse"></i> Clínica
+                                </a>
+                                <ul class="dropdown-menu bg-white shadow-sm border-0" style="border-radius:12px;">
+                                    <li><a class="dropdown-item text-dark" asp-area="" asp-controller="Tratamientos" asp-action="Index">Tratamientos</a></li>
+                                    <li><a class="dropdown-item text-dark" asp-area="" asp-controller="Especies" asp-action="Index">Especies</a></li>
+                                    <li><a class="dropdown-item text-dark" asp-area="" asp-controller="Vacunas" asp-action="Index">Vacunas</a></li>
+                                    <li><a class="dropdown-item text-dark" asp-area="" asp-controller="Medicamentos" asp-action="Index">Medicamentos</a></li>
+                                </ul>
+                            </li>
+                        }
+                        
+                        @if (rol == "Admin" || rol == "Usuario")
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-shop"></i> Tienda
+                                </a>
+                                <ul class="dropdown-menu bg-white shadow-sm border-0" style="border-radius:12px;">
+                                    <li><a class="dropdown-item text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a></li>
+                                    @if (rol == "Admin")
+                                    {
+                                        <li><a class="dropdown-item text-dark" asp-area="" asp-controller="Ventas" asp-action="Index">Ventas</a></li>
+                                        <li><a class="dropdown-item text-dark" asp-area="" asp-controller="Facturas" asp-action="Index">Facturas</a></li>
+                                        <li><a class="dropdown-item text-dark" asp-area="" asp-controller="Proveedores" asp-action="Index">Proveedores</a></li>
+                                        <li><a class="dropdown-item text-dark" asp-area="" asp-controller="CategoriasProducto" asp-action="Index">Categorías</a></li>
+                                    }
+                                    @if (rol == "Usuario")
+                                    {
+                                        <li><a class="dropdown-item text-dark" asp-area="" asp-controller="Ventas" asp-action="Index">Mis Compras</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                        @if (rol == "Admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Reportes" asp-action="Index"><i class="bi bi-bar-chart-fill"></i> Reportes</a>
+                            </li>
+                        }
+
+                        <li class="nav-item ms-md-auto d-flex align-items-center gap-2">
+                            <span class="text-muted fw-bold me-2" style="font-size:0.9rem;">Hola, @usuario (@rol)</span>
+                            @if (rol == "Admin")
+                            {
+                                <a class="btn-vet-secondary py-1 px-3 mt-1 mt-md-0" asp-area="" asp-controller="Data" asp-action="Seed" style="font-size:0.8rem;"><i class="bi bi-database-add"></i> 500k</a>
+                            }
+                            <a class="btn-vet-danger py-1 px-3 mt-1 mt-md-0" asp-area="" asp-controller="Auth" asp-action="Logout" style="font-size:0.8rem;"><i class="bi bi-box-arrow-right"></i> Salir</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item ms-md-auto">
+                            <a class="btn-vet-primary py-1 px-4 mt-1 mt-md-0" asp-area="" asp-controller="Auth" asp-action="Login"><i class="bi bi-box-arrow-in-right"></i> Ingresar</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </nav>
@@ -52,7 +141,7 @@
 
     <!-- FOOTER -->
     <footer class="footer-vet">
-        <i class="bi bi-heart-pulse-fill"></i> &copy; 2026 VetCare - Clínica Veterinaria &nbsp;|&nbsp; Todos los derechos reservados
+        <i class="bi bi-heart-pulse-fill"></i> &copy; 2026 NetVet - Clínica Veterinaria &nbsp;|&nbsp; Todos los derechos reservados
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

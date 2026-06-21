@@ -5,10 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VeterinariaApp.Models
 {
-    public class Mascota
+    public class Mascota : EntityBase
     {
-        public int Id { get; set; }
-
         [Required]
         [StringLength(100)]
         public string Nombre { get; set; } = string.Empty;
@@ -18,10 +16,6 @@ namespace VeterinariaApp.Models
 
         [Range(0.01, 200)]
         public decimal Peso { get; set; }
-
-        public bool Activo { get; set; } = true;
-
-        public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 
         // Foráneas
         [Required]

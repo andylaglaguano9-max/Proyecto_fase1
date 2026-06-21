@@ -4,15 +4,15 @@
 
 <!-- HERO -->
 <section class="hero-section">
-    <div class="hero-badge"><i class="bi bi-check-circle-fill"></i> Sistema activo y funcionando</div>
-    <h1><i class="bi bi-heart-pulse-fill"></i> Bienvenido a VetCare</h1>
-    <p>Sistema integral de gestión para nuestra Clínica Veterinaria.<br/>Cuida a tus mascotas con el mejor servicio.</p>
+    <div class="hero-badge"><i class="bi bi-check-circle-fill"></i> Sistema activo y operando con 19 Módulos Base</div>
+    <h1><i class="bi bi-heart-pulse-fill"></i> Bienvenido a NetVet</h1>
+    <p>El sistema integral clínico y administrativo más avanzado para Medicina Veterinaria.<br/>Maneja más de medio millón de registros en milisegundos.</p>
     <div class="d-flex gap-3 justify-content-center flex-wrap">
         <a asp-controller="Mascotas" asp-action="Create" class="btn-vet-primary" style="font-size:1rem; padding:12px 28px">
-            <i class="bi bi-plus-circle-fill"></i> Nueva Mascota
+            <i class="bi bi-plus-circle-fill"></i> Nuevo Paciente (Mascota)
         </a>
-        <a asp-controller="Duenos" asp-action="Create" class="btn-vet-secondary" style="font-size:1rem; padding:12px 28px; color:white; border-color:white;">
-            <i class="bi bi-person-plus-fill"></i> Nuevo Dueño
+        <a asp-controller="Citas" asp-action="Create" class="btn-vet-secondary" style="font-size:1rem; padding:12px 28px; color:white; border-color:white;">
+            <i class="bi bi-calendar-plus-fill"></i> Agendar Cita
         </a>
     </div>
 </section>
@@ -20,29 +20,35 @@
 <!-- STATS -->
 <div class="stats-bar">
     <div class="container">
-        <div class="row">
-            <div class="col-6 col-md-3">
+        <div class="row justify-content-center">
+            <div class="col-6 col-md">
                 <div class="stat-item">
-                    <div class="stat-number">5+</div>
-                    <div class="stat-label"><i class="bi bi-clipboard2-pulse-fill"></i> Mascotas Registradas</div>
+                    <div class="stat-number">100K+</div>
+                    <div class="stat-label"><i class="bi bi-clipboard2-pulse-fill"></i> Pacientes (Mascotas)</div>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
+            <div class="col-6 col-md">
                 <div class="stat-item">
-                    <div class="stat-number">5+</div>
-                    <div class="stat-label"><i class="bi bi-people-fill"></i> Dueños Activos</div>
+                    <div class="stat-number">80K+</div>
+                    <div class="stat-label"><i class="bi bi-people-fill"></i> Clientes (Dueños)</div>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
+            <div class="col-6 col-md">
                 <div class="stat-item">
-                    <div class="stat-number">5+</div>
-                    <div class="stat-label"><i class="bi bi-calendar2-check-fill"></i> Citas Agendadas</div>
+                    <div class="stat-number">150K+</div>
+                    <div class="stat-label"><i class="bi bi-calendar2-check-fill"></i> Citas Históricas</div>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
+            <div class="col-6 col-md">
                 <div class="stat-item">
-                    <div class="stat-number">5+</div>
-                    <div class="stat-label"><i class="bi bi-person-badge-fill"></i> Veterinarios</div>
+                    <div class="stat-number">900K+</div>
+                    <div class="stat-label"><i class="bi bi-database-fill-check"></i> Registros Totales</div>
+                </div>
+            </div>
+            <div class="col-6 col-md">
+                <div class="stat-item">
+                    <div class="stat-number">19</div>
+                    <div class="stat-label"><i class="bi bi-table"></i> Tablas Activas</div>
                 </div>
             </div>
         </div>
@@ -52,17 +58,17 @@
 <!-- MODULES -->
 <section class="modules-section">
     <div class="section-title">
-        <h2><i class="bi bi-grid-fill"></i> Módulos del Sistema</h2>
-        <p>Gestiona toda la información de tu clínica veterinaria desde un solo lugar</p>
+        <h2><i class="bi bi-grid-fill"></i> Módulos Operativos (CRUD Completos)</h2>
+        <p>Selecciona uno de los módulos funcionales para gestionar los registros</p>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-4 mb-5">
         <div class="col-md-6 col-lg-4">
             <a asp-controller="Duenos" asp-action="Index" class="module-card">
                 <span class="card-icon"><i class="bi bi-people-fill"></i></span>
                 <h4>Dueños</h4>
                 <p>Gestiona la información de contacto de los propietarios de mascotas registrados en el sistema.</p>
-                <div class="card-arrow">Ver módulo <i class="bi bi-arrow-right"></i></div>
+                <div class="card-arrow">Ingresar al módulo <i class="bi bi-arrow-right"></i></div>
             </a>
         </div>
         <div class="col-md-6 col-lg-4">
@@ -70,40 +76,73 @@
                 <span class="card-icon"><i class="bi bi-clipboard2-pulse-fill"></i></span>
                 <h4>Mascotas</h4>
                 <p>Registro completo de los pacientes: nombre, especie, peso, fecha de nacimiento y dueño.</p>
-                <div class="card-arrow">Ver módulo <i class="bi bi-arrow-right"></i></div>
+                <div class="card-arrow">Ingresar al módulo <i class="bi bi-arrow-right"></i></div>
             </a>
         </div>
         <div class="col-md-6 col-lg-4">
-            <div class="module-card" style="opacity:0.6; cursor:default;">
+            <a asp-controller="Citas" asp-action="Index" class="module-card">
                 <span class="card-icon"><i class="bi bi-calendar2-check-fill"></i></span>
-                <h4>Citas</h4>
+                <h4>Citas Médicas</h4>
                 <p>Agenda y administra las citas médicas de cada mascota con el veterinario correspondiente.</p>
-                <div class="card-arrow" style="color:#aaa">Próximamente <i class="bi bi-lock-fill"></i></div>
-            </div>
+                <div class="card-arrow">Ingresar al módulo <i class="bi bi-arrow-right"></i></div>
+            </a>
         </div>
         <div class="col-md-6 col-lg-4">
-            <div class="module-card" style="opacity:0.6; cursor:default;">
-                <span class="card-icon"><i class="bi bi-capsule-pill"></i></span>
-                <h4>Tratamientos</h4>
-                <p>Registra y da seguimiento a los tratamientos médicos aplicados en cada consulta.</p>
-                <div class="card-arrow" style="color:#aaa">Próximamente <i class="bi bi-lock-fill"></i></div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="module-card" style="opacity:0.6; cursor:default;">
+            <a asp-controller="Veterinarios" asp-action="Index" class="module-card">
                 <span class="card-icon"><i class="bi bi-person-badge-fill"></i></span>
                 <h4>Veterinarios</h4>
-                <p>Administra el personal médico, sus especialidades y disponibilidad para atención.</p>
-                <div class="card-arrow" style="color:#aaa">Próximamente <i class="bi bi-lock-fill"></i></div>
-            </div>
+                <p>Administra el personal médico, sus especialidades y la asignación a las sucursales operativas.</p>
+                <div class="card-arrow">Ingresar al módulo <i class="bi bi-arrow-right"></i></div>
+            </a>
         </div>
         <div class="col-md-6 col-lg-4">
-            <div class="module-card" style="opacity:0.6; cursor:default;">
+            <a asp-controller="Sucursales" asp-action="Index" class="module-card">
+                <span class="card-icon"><i class="bi bi-building"></i></span>
+                <h4>Sucursales</h4>
+                <p>Gestión de las sedes clínicas, ubicaciones físicas y asignación de personal veterinario.</p>
+                <div class="card-arrow">Ingresar al módulo <i class="bi bi-arrow-right"></i></div>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <a asp-controller="Tratamientos" asp-action="Index" class="module-card">
+                <span class="card-icon"><i class="bi bi-capsule-pill"></i></span>
+                <h4>Tratamientos</h4>
+                <p>Registra y da seguimiento a los tratamientos médicos y costos aplicados en cada consulta.</p>
+                <div class="card-arrow">Ingresar al módulo <i class="bi bi-arrow-right"></i></div>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <a asp-controller="Especies" asp-action="Index" class="module-card">
                 <span class="card-icon"><i class="bi bi-diagram-3-fill"></i></span>
                 <h4>Especies</h4>
-                <p>Catálogo de especies atendidas: perros, gatos, aves, roedores y reptiles.</p>
-                <div class="card-arrow" style="color:#aaa">Próximamente <i class="bi bi-lock-fill"></i></div>
-            </div>
+                <p>Catálogo base de todas las razas y especies atendidas en la clínica veterinaria.</p>
+                <div class="card-arrow">Ingresar al módulo <i class="bi bi-arrow-right"></i></div>
+            </a>
+        </div>
+    <!-- The row continues smoothly -->
+        <div class="col-md-6 col-lg-4">
+            <a asp-controller="Productos" asp-action="Index" class="module-card">
+                <span class="card-icon"><i class="bi bi-shop"></i></span>
+                <h4>Tienda PetShop</h4>
+                <p>Catálogo de inventario, accesorios y alimentos ligados a compras de clientes.</p>
+                <div class="card-arrow">Ingresar al módulo <i class="bi bi-arrow-right"></i></div>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <a asp-controller="Facturas" asp-action="Index" class="module-card">
+                <span class="card-icon"><i class="bi bi-receipt"></i></span>
+                <h4>Facturación</h4>
+                <p>Registro financiero de citas, venta de medicamentos y tratamientos cobrados.</p>
+                <div class="card-arrow">Ingresar al módulo <i class="bi bi-arrow-right"></i></div>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <a asp-controller="Medicamentos" asp-action="Index" class="module-card">
+                <span class="card-icon"><i class="bi bi-capsule-pill"></i></span>
+                <h4>Inventario Médico</h4>
+                <p>Stock de medicinas clínicas y vacunas controladas con lotes y proveedores.</p>
+                <div class="card-arrow">Ingresar al módulo <i class="bi bi-arrow-right"></i></div>
+            </a>
         </div>
     </div>
 </section>

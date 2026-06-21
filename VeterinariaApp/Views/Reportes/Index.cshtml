@@ -1,0 +1,70 @@
+@{
+    ViewData["Title"] = "Reportes y Estadísticas";
+}
+
+<div class="container mt-4">
+    <h2>Tablero de Reportes (LINQ)</h2>
+    <hr />
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Total de Ingresos (Sum)</div>
+                <div class="card-body">
+                    <h4 class="card-title">$ @ViewBag.TotalIngresos.ToString("N2")</h4>
+                    <p class="card-text">Suma de todos los tratamientos activos.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Promedio por Tratamiento (Average)</div>
+                <div class="card-body">
+                    <h4 class="card-title">$ @ViewBag.PromedioTratamiento.ToString("N2")</h4>
+                    <p class="card-text">Costo promedio de los tratamientos aplicados.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">Citas por Estado (GroupBy y Count)</div>
+                <ul class="list-group list-group-flush">
+                    @foreach (var estado in ViewBag.CitasPorEstado)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            @estado.Key
+                            <span class="badge bg-primary rounded-pill">@estado.Value</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">Top 10 Dueños con más Mascotas (Take, OrderBy)</div>
+                <ul class="list-group list-group-flush">
+                    @foreach (var dueno in ViewBag.TopDuenos)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            @dueno.Nombre
+                            <span class="badge bg-warning text-dark rounded-pill">@dueno.CantidadMascotas mascotas</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-secondary text-center">
+                <strong>Registros de Citas (Eliminación Lógica):</strong> 
+                Activas: <span class="badge bg-success">@ViewBag.TotalActivos</span> | 
+                Inactivas (Eliminadas): <span class="badge bg-danger">@ViewBag.TotalInactivos</span>
+            </div>
+        </div>
+    </div>
+</div>

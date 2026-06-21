@@ -1,0 +1,49 @@
+﻿@model VeterinariaApp.Models.Veterinario
+@{ ViewData["Title"] = "Editar Veterinario"; }
+<div class="page-header">
+    <div class="container">
+        <h1><i class="bi bi-pencil-square"></i> Editar: Veterinario</h1>
+    </div>
+</div>
+<div class="main-content">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-5">
+                    <form asp-action="Edit">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="mb-4">
+                            <label asp-for="Nombre" class="form-label fw-bold text-muted"></label>
+                            <input asp-for="Nombre" class="form-control form-control-lg bg-light border-0" style="border-radius:10px;" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="Apellido" class="form-label fw-bold text-muted"></label>
+                            <input asp-for="Apellido" class="form-control form-control-lg bg-light border-0" style="border-radius:10px;" />
+                            <span asp-validation-for="Apellido" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="Especialidad" class="form-label fw-bold text-muted"></label>
+                            <input asp-for="Especialidad" class="form-control form-control-lg bg-light border-0" style="border-radius:10px;" />
+                            <span asp-validation-for="Especialidad" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="Telefono" class="form-label fw-bold text-muted"></label>
+                            <input asp-for="Telefono" class="form-control form-control-lg bg-light border-0" style="border-radius:10px;" />
+                            <span asp-validation-for="Telefono" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="SucursalId" class="form-label fw-bold text-muted"></label>
+                            <select asp-for="SucursalId" class="form-select form-select-lg bg-light border-0" style="border-radius:10px;" asp-items="ViewBag.SucursalId"></select>
+                        </div>                        <div class="d-flex justify-content-between mt-5">
+                            <a asp-action="Index" class="btn btn-light btn-lg px-4" style="border-radius:10px;"><i class="bi bi-arrow-left"></i> Volver</a>
+                            <button type="submit" class="btn btn-warning btn-lg px-5 text-white" style="border-radius:10px;">
+                                <i class="bi bi-save"></i> Actualizar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

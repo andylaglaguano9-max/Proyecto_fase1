@@ -1,0 +1,188 @@
+@model IEnumerable<VeterinariaApp.Models.Venta>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Ventas";
+    var rol = HttpContextAccessor.HttpContext?.Session.GetString("Rol") ?? "";
+}
+
+<div class="page-header mb-4">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="fw-bold text-dark m-0" style="font-family: 'Outfit', sans-serif;">
+                <i class="bi @(rol == "Usuario" ? "bi-bag-check-fill" : "bi-cart-check-fill") text-primary me-2"></i>
+                @(rol == "Usuario" ? "Mis Compras" : "Gestión de Ventas")
+            </h1>
+            <p class="text-muted mt-1 mb-0">
+                @(rol == "Usuario" ? "Historial de todas tus compras en la tienda." : "Ventas de tienda")
+            </p>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert" style="border-radius: 12px; border-left: 5px solid #198754;">
+        <i class="bi bi-check-circle-fill me-2"></i>@TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert" style="border-radius: 12px; border-left: 5px solid #dc3545;">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>@TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (rol == "Usuario")
+{
+    <div class="row">
+        <div class="col-12">
+            @if (!Model.Any())
+            {
+                <div class="card shadow-sm border-0 rounded-4 text-center py-5" style="background: rgba(255, 255, 255, 0.9);">
+                    <div class="card-body">
+                        <i class="bi bi-bag-x text-muted opacity-50" style="font-size: 5rem;"></i>
+                        <h4 class="mt-3 text-dark fw-bold">Aún no has realizado compras</h4>
+                        <p class="text-muted">Visita nuestra tienda para encontrar productos para tu mascota.</p>
+                        <a asp-controller="Productos" asp-action="Index" class="btn btn-primary rounded-pill px-4 mt-2">
+                            <i class="bi bi-shop me-1"></i> Ir a la Tienda
+                        </a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="card shadow-sm border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                                    <tr>
+                                        <th class="px-4 py-3 text-secondary fw-bold text-uppercase" style="font-size: 0.8rem;">ID Pedido</th>
+                                        <th class="px-4 py-3 text-secondary fw-bold text-uppercase" style="font-size: 0.8rem;">Fecha</th>
+                                        <th class="px-4 py-3 text-secondary fw-bold text-uppercase" style="font-size: 0.8rem;">Productos</th>
+                                        <th class="px-4 py-3 text-secondary fw-bold text-uppercase text-end" style="font-size: 0.8rem;">Total Pagado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="border-bottom">
+                                            <td class="px-4 py-3 fw-bold text-muted">#@item.Id</td>
+                                            <td class="px-4 py-3">@item.FechaVenta.ToString("dd/MM/yyyy HH:mm")</td>
+                                            <td class="px-4 py-3">
+                                                @if (item.Detalles != null && item.Detalles.Any())
+                                                {
+                                                    <ul class="list-unstyled mb-0 small">
+                                                        @foreach(var det in item.Detalles)
+                                                        {
+                                                            <li><i class="bi bi-check2 text-success"></i> @det.Cantidad x @(det.Producto?.Nombre ?? "Producto")</li>
+                                                        }
+                                                    </ul>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted fst-italic">Sin detalles</span>
+                                                }
+                                            </td>
+                                            <td class="px-4 py-3 text-end fw-bold text-primary fs-5">$@item.Total.ToString("0.00")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <!-- VISTA DE ADMINISTRADOR / DOCTOR (CRUD) -->
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
+        <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <h5 class="m-0 fw-bold text-dark"><i class="bi bi-card-list me-2"></i>Lista de Ventas</h5>
+                
+                <div class="d-flex gap-2 flex-wrap">
+                    <form method="get" asp-action="Index" class="d-flex gap-2">
+                        <select name="orden" class="form-select border-0 shadow-sm" style="border-radius: 50px; max-width: 180px; cursor: pointer;" onchange="this.form.submit()">
+                            <option value="">Ordenar por...</option>
+                            <!option value="recientes" @(ViewBag.OrdenActual == "recientes" ? "selected" : "")>Más Recientes</!option>
+                            <!option value="antiguos" @(ViewBag.OrdenActual == "antiguos" ? "selected" : "")>Más Antiguos</!option>
+                        </select>
+                        <button type="submit" class="btn btn-primary rounded-pill px-3 shadow-sm"><i class="bi bi-filter"></i></button>
+                    </form>
+                    <a asp-action="Create" class="btn btn-warning rounded-pill fw-bold text-dark shadow-sm px-4">
+                        <i class="bi bi-plus-lg me-1"></i> Nueva Venta
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-body p-0 mt-3">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                        <tr>
+                            <th class="px-4 py-3 text-secondary fw-bold text-uppercase" style="font-size: 0.8rem;">ID</th>
+                            <th class="px-4 py-3 text-secondary fw-bold text-uppercase" style="font-size: 0.8rem;">Cliente</th>
+                            <th class="px-4 py-3 text-secondary fw-bold text-uppercase" style="font-size: 0.8rem;">Fecha Venta</th>
+                            <th class="px-4 py-3 text-secondary fw-bold text-uppercase" style="font-size: 0.8rem;">Total</th>
+                            <th class="px-4 py-3 text-secondary fw-bold text-uppercase text-end" style="font-size: 0.8rem;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="border-bottom">
+                                <td class="px-4 py-3 fw-bold text-muted">#@item.Id</td>
+                                <td class="px-4 py-3">@(item.Dueno?.Nombre) @(item.Dueno?.Apellido)</td>
+                                <td class="px-4 py-3">@item.FechaVenta.ToString("g")</td>
+                                <td class="px-4 py-3 text-success fw-bold">$@item.Total.ToString("0.00")</td>
+                                <td class="px-4 py-3 text-end">
+                                    <div class="btn-group shadow-sm" style="border-radius: 8px;">
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info" title="Ver detalle"><i class="bi bi-eye-fill"></i></a>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary" title="Editar"><i class="bi bi-pencil-fill"></i></a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash-fill"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- PAGINACIÓN -->
+@if (ViewBag.TotalPaginas > 1)
+{
+    <nav aria-label="Page navigation" class="mt-4 d-flex justify-content-center">
+        <ul class="pagination pagination-lg shadow-sm" style="border-radius: 12px; overflow: hidden;">
+            @if (ViewBag.PaginaActual > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link text-primary" asp-action="Index" asp-route-pagina="@(ViewBag.PaginaActual - 1)" asp-route-buscar="@ViewBag.Buscar"><i class="bi bi-chevron-left"></i></a>
+                </li>
+            }
+            
+            @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
+            {
+                <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
+                    <a class="page-link @(i == ViewBag.PaginaActual ? "bg-primary border-primary text-white" : "text-dark")" asp-action="Index" asp-route-pagina="@i" asp-route-buscar="@ViewBag.Buscar">@i</a>
+                </li>
+            }
+            
+            @if (ViewBag.PaginaActual < ViewBag.TotalPaginas)
+            {
+                <li class="page-item">
+                    <a class="page-link text-primary" asp-action="Index" asp-route-pagina="@(ViewBag.PaginaActual + 1)" asp-route-buscar="@ViewBag.Buscar"><i class="bi bi-chevron-right"></i></a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
